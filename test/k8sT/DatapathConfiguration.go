@@ -623,6 +623,15 @@ var _ = Describe("K8sDatapathConfig", func() {
 			Expect(testPodConnectivityAcrossNodes(kubectl)).Should(BeTrue(), "Connectivity test between nodes failed")
 		})
 	})
+
+	Context("Debug", func() {
+		It("Check connectivity with bpf compile debug enabled", func() {
+			deploymentManager.DeployCilium(map[string]string{
+				"bpf.compileDebug": "true",
+			}, DeployCiliumOptionsAndDNS)
+			Expect(testPodConnectivityAcrossNodes(kubectl)).Should(BeTrue(), "Connectivity test between nodes failed")
+		})
+	})
 })
 
 func testPodConnectivityAcrossNodes(kubectl *helpers.Kubectl) bool {
